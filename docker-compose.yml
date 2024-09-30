@@ -1,0 +1,10 @@
+services:
+    ios_webkit_debug_proxy:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        network_mode: host
+        volumes:
+            - /dev/bus/usb:/dev/bus/usb
+            - /var/run:/var/run
+        privileged: true

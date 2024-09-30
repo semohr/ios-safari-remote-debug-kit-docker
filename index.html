@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <script>
+
+        function fetchPages() {
+            fetch('http://localhost:9222/json')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const root = document.querySelector('.list');
+                    // Remove all children
+                    while (root.firstChild) {
+                        root.removeChild(root.firstChild);
+                    }
+
+                    data.forEach(element => {
+                        const page = document.createElement('li');
+                        page.innerHTML = `<a href="/Main.html?ws=${element.webSocketDebuggerUrl.replaceAll("ws://", "")}">${element.url}</a>`;
+                        root.appendChild(page);
+                    });
+
+                    if (data.length === 0) {
+                        const page = document.createElement('li');
+                        page.innerHTML = `No pages available`;
+                        root.appendChild(page);
+                    }
+
+                }).catch(console.error);
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <button onclick="fetchPages()">Refresh</button>
+        <ul class="list"></ul>
+    </div>
+</body>
+
+
+</html>
